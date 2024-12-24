@@ -1,0 +1,3 @@
+tkn1 = "7038901515:AAFtgN9NtGIZGnijZIVb99rL7MGMQBqh_cU"
+tkn = "6829859733:AAGr__jHIrw4tL3WaaUO7kUaee4p0g9ceIE"
+timetableDatabase_Chat = -1002088612127
