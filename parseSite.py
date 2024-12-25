@@ -4,7 +4,10 @@ from urllib.parse import urljoin
 
 def DictionaryNews(url):
     try:
-        page = urllib.request.urlopen(url)
+        # Установка User-Agent для подмены заголовка запроса
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.1 Safari/537.36'}
+        request = urllib.request.Request(url, headers=headers)
+        page = urllib.request.urlopen(request)
         parsed_html = BeautifulSoup(page, features="lxml")
         lines = parsed_html.find_all('h3', attrs={'class': 'btl'})
         dictionaryOfNews = []
@@ -25,3 +28,5 @@ news = DictionaryNews(url)
 
 for item in news:
     print(f"Заголовок: {item[0]}, Ссылка: {item[1]}")
+
+input()

@@ -107,7 +107,7 @@ class News(StatesGroup):
 
 @dp.message(F.text == "Новости")
 async def NewsList(message: types.Message, state: FSMContext):
-    NewsDict = pS.DictionaryNews()
+    NewsDict = pS.DictionaryNews("http://www.ttiip.ru/")
     await state.update_data(News = NewsDict)
     await message.answer(
         text = f"Недавние события нашего техникума.\nЧтобы стать частью этих событий обращайтесь к @Me4tatelnitca",
