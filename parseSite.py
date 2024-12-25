@@ -24,9 +24,4 @@ def DictionaryNews(url):
         return []
 
 url = "http://www.ttiip.ru/"
-news = DictionaryNews(url)
 
-for item in news:
-    print(f"Заголовок: {item[0]}, Ссылка: {item[1]}")
-
-input()
