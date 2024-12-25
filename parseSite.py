@@ -1,12 +1,13 @@
 from bs4 import BeautifulSoup
-import urllib.request as urllib2
+import urllib.request
 from urllib.parse import urljoin  # Для формирования абсолютных ссылок
 
 def DictionaryNews(url):
     try:
         # Попытка загрузить страницу
-        page = urllib2.urlopen(url)
+        page = urllib.request.urlopen(url)
         parsed_html = BeautifulSoup(page, features="lxml")
+        
         # Поиск всех заголовков новостей
         lines = parsed_html.find_all('h3', attrs={'class': 'btl'})
         dictionaryOfNews = []
@@ -19,7 +20,7 @@ def DictionaryNews(url):
             link_tag = x.find('a', href=True)
             link = urljoin(url, link_tag['href']) if link_tag else None
             dictionaryOfNews.append([text, link])
-        
+
         return dictionaryOfNews
     except Exception as e:
         print(f"Ошибка: {e}")
