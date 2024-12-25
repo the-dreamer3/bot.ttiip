@@ -1,13 +1,34 @@
-href = "http://www.ttiip.ru/"
 from bs4 import BeautifulSoup
 import urllib.request as urllib2
+from urllib.parse import urljoin  # Для формирования абсолютных ссылок
 
-def DictionaryNews():
-    page = urllib2.urlopen(href)
-    parsed_html = BeautifulSoup(page, features="lxml")
-    lines = parsed_html.body.find_all('h3', attrs={'class':'btl'})
-    dictionaryOfNews = []
-    for x in lines:
-        dictionaryOfNews.append([x.text,x.find('a', href = True)['href']])
-    
-    return dictionaryOfNews
+def DictionaryNews(url):
+    try:
+        # Попытка загрузить страницу
+        page = urllib2.urlopen(url)
+        parsed_html = BeautifulSoup(page, features="lxml")
+        # Поиск всех заголовков новостей
+        lines = parsed_html.find_all('h3', attrs={'class': 'btl'})
+        dictionaryOfNews = []
+
+        # Итерация по заголовкам
+        for x in lines:
+            # Извлекаем полный текст заголовка
+            text = x.get_text(strip=True)
+            # Находим ссылку и формируем полный URL
+            link_tag = x.find('a', href=True)
+            link = urljoin(url, link_tag['href']) if link_tag else None
+            dictionaryOfNews.append([text, link])
+        
+        return dictionaryOfNews
+    except Exception as e:
+        print(f"Ошибка: {e}")
+        return []
+
+# Пример использования
+url = "http://www.ttiip.ru/"
+news = DictionaryNews(url)
+
+# Вывод всех новостей с полными ссылками
+for item in news:
+    print(f"Заголовок: {item[0]}, Ссылка: {item[1]}")
